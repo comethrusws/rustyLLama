@@ -15,17 +15,17 @@ router.get('/', async (req,res) => {
 });
 
 //new msg
-router.post('/', async(req, rea)=>{
+router.post('/', async(req, res)=>{
     const newMessage = new Message({
         sender: 'user',
         text: req.body.text,
     });
     
     try{
-        const savedMessage = aait newMessage.save();
+        const savedMessage = await newMessage.save();
 
         //generation of new msg with lang model
-        const prompt = 'User: ${savedMessage.text}\nrustyLlama';
+        const prompt = 'User: ${savedMessage.text}\nrustyLlama:';
         const response = await model.generatetext(prompt);
 
         const aiMessage = new Message({
