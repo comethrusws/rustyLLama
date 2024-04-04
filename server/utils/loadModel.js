@@ -11,6 +11,7 @@ const loadModel = () => {
         return response;
     };
 
+    return { generateText };
 };
 
 module.exports= loadModel;
