@@ -1,6 +1,6 @@
 <template>
     <div class="chat-container">
-      <h1>ChatGPT Clone</h1>
+      <h1>CrustyLlama</h1>
       <ChatMessages :messages="messages" :loading="loading" />
       <ChatInput @new-message="addMessage" />
     </div>
@@ -8,8 +8,8 @@
   
   <script>
   import axios from 'axios';
-  import ChatMessages from '@/components/ChatMessages.vue';
-  import ChatInput from '@/components/ChatInput.vue';
+  import ChatMessages from '../components/ChatMessages.vue';
+  import ChatInput from '../components/ChatInput.vue';
   
   export default {
     name: 'ChatView',
