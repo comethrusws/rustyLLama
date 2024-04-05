@@ -6,16 +6,19 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
+  "type": "module",
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@xenova/transformers": "^2.16.1",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "huggingface": "^1.4.0",
     "mongodb": "^6.5.0",
-    "mongoose": "^8.3.0"
+    "mongoose": "^8.3.0",
+    "node-transformers": "^0.0.0"
   }
 }

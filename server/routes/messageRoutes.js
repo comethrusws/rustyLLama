@@ -1,44 +1,23 @@
-const express = require('express');
+import express from 'express';
+import { AutoModelForCausalLM, AutoTokenizer } from 'node-transformers';
+
 const router = express.Router();
-const Message = require('../models/Message');
-const loadModel = require('../utils/loadModel');
 
-const model = loadModel();
+// Load DialoGPT model and tokenizer
+const model = await AutoModelForCausalLM.from_pretrained('microsoft/DialoGPT-medium');
+const tokenizer = await AutoTokenizer.from_pretrained('microsoft/DialoGPT-medium');
 
-router.get('/', async (req,res) => {
-    try {
-        const messages = await Message.find();
-        res.json(messages);
-    } catch (err){
-        res.status(500).json({ message: err.message });
-    }
+async function generateResponse(userMessage) {
+    const inputs = tokenizer.encode(userMessage, { return_tensors: 'pt' });
+    const output = await model.generate(inputs);
+    const response = tokenizer.decode(output[0]);
+    return response;
+}
+
+router.post('/api/messages', async (req, res) => {
+    const userMessage = req.body.text;
+    const response = await generateResponse(userMessage);
+    res.json({ response });
 });
 
-//new msg
-router.post('/', async(req, res)=>{
-    const newMessage = new Message({
-        sender: 'user',
-        text: req.body.text,
-    });
-    
-    try{
-        const savedMessage = await newMessage.save();
-
-        //generation of new msg with lang model
-        const prompt = 'User: ${savedMessage.text}\nrustyLlama:';
-        const response = await model.generatetext(prompt);
-
-        const aiMessage = new Message({
-            sender: 'ai',
-            text: response,
-        });
-
-        await aiMessage.save();
-        res.status(201),json({ message: 'Message Created', response });
-    }
-    catch (err) {
-        rees.status(400).json({ message: err.message});
-    }
-});
-
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -20,8 +20,7 @@ mongoose.connect(process.env.MONGODB_URi,{
     .catch((err)=> console.log('err'));
 
 //import route
-const messageRoutes = require('./routes/messageRoutes');
-
+import messageRoutes from './routes/messageRoutes.js';
 app.use('/api/messages', messageRoutes);
 
 app.listen(PORT,()=>{
